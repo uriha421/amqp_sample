@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/streadway/amqp"
 	"os"
 )
@@ -24,33 +25,33 @@ func main() {
 		panic("could not open channel: " + err.Error())
 	}
 
-	// create an exchange on which publisher publishes messages
-	/*
-		arguments of ExchangeDeclare():
-			1. the exhange name,
-			2. the exchange type, "direct", "fanout", or "topic",
-			7. additional configuration parameters.
-	*/
-	err = channel.ExchangeDeclare("events", "topic", true, false, false, false, nil)
+	// declare a new Queue
+	_, err = channel.QueueDeclare("my_queue", true, false, false, false, nil)
 	if err != nil {
-		panic(err)
+		panic("error while declaring the queue: " + err.Error())
 	}
 
-	// prepare a message for publishing
-	message := amqp.Publishing{
-		Body: []byte("Hello Wolrd"),
+	// bind the Queue to ...
+	err = channel.QueueBind("my_queue", "#", "events", false, nil)
+	if err != nil {
+		panic("error while binding the queue " + err.Error())
 	}
 
-	// publish a message on the exchange
+	// consume the Queue
 	/*
-		arguments of Publish():
-			1. the exchange name on which you will publish,
-			2. the message's routing key,
-			5. the message.
+		arguments of Consume():
+			1. the name of the queue to be consumed,
+			2. a unique identifier, but if it is nil, a unique identifier automatically generated.
 	*/
-	err = channel.Publish("events", "some-routing-key", false, false, message)
+	msgs, err := channel.Consume("my_queue", "", false, false, false, false, nil)
 	if err != nil {
-		panic("error while publishing a message: " + err.Error())
+		panic("error while consuming the queue: " + err.Error())
+	}
+
+	// read the msgs channel
+	for msg := range msgs {
+		fmt.Println("message received: " + string(msg.Body))
+		msg.Ack(false)
 	}
 
 	defer connection.Close()
