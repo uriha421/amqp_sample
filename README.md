@@ -11,7 +11,7 @@ First, start amqp.
 $ docker run --detech --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 ```
 
-Then, prepare queue for receiving messages.
+Then, prepare a queue for receiving messages.
 ```
 $ git clone https://github.com/uriha421/amqp_sample.git
 $ cd queue/
@@ -24,9 +24,12 @@ $ cd ../publisher/
 $ go run main.go
 ```
 
-you should see the following message.
+You should see the following message.
 ```
 message received: Hello Wolrd
 ```
 
-thank you.
+# References
+- https://github.com/PacktPublishing/Cloud-Native-programming-with-Golang
+
+Thank you.
