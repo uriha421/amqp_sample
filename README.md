@@ -11,10 +11,16 @@ First, start amqp.
 $ docker run --detach --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 ```
 
-Then, prepare a queue for receiving messages.
+Then, create an exchange.
 ```
 $ git clone https://github.com/uriha421/amqp_sample.git
-$ cd queue/
+$ cd publisher/
+$ go run main.go
+```
+
+After that, prepare a queue for receiving messages.
+```
+$ cd ../queue/
 $ go run main.go
 ```
 
