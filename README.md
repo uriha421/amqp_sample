@@ -8,7 +8,7 @@ This is an introduction to amqp.
 # How to use?
 First, start amqp.
 ```
-$ docker run --detech --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+$ docker run --detach --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 ```
 
 Then, prepare a queue for receiving messages.
