@@ -3,7 +3,7 @@ This is an introduction to amqp.
 
 # Prerequisites
  - golang v1.10.3
- - docker v18.09.0
+ - Docker v18.09.0
 
 # How to use?
 First, start amqp.
